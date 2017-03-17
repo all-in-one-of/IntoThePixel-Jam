@@ -11,12 +11,19 @@ public class Throwing : MonoBehaviour
     public float DeadThreshold = 0.2f;
     public float ThrowThreshold = 1f;
 
+    private Player assignedPlayer;
+
     private float windupStartTime = -1f;
     private bool throwLocked;
 
+    public void Start()
+    {
+        assignedPlayer = GetComponent<Player>();
+    }
+
     public void Update()
     {
-        Vector2 input = new Vector2(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"));
+        Vector2 input = InputHandler.AimingDirection(assignedPlayer.Index);
         if(throwLocked)
         {
             if(input.magnitude <= DeadThreshold)
@@ -42,6 +49,7 @@ public class Throwing : MonoBehaviour
     {
         GameObject projectile = GameObject.Instantiate(ObjectToThrow);
         projectile.transform.position = (Vector2)transform.position + Offset;
+        Debug.Log(force);
         projectile.GetComponent<Rigidbody2D>().AddForce(direction * force, ForceMode2D.Impulse);
         windupStartTime = -1f;
         throwLocked = true;
