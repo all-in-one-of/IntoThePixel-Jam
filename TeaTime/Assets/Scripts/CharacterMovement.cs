@@ -28,7 +28,6 @@ public class CharacterMovement : MonoBehaviour
     {
         if (InputHandler.JumpPressed(assignedPlayer.Index))
         {
-            Debug.Log("player " + assignedPlayer.Index + "jumps!");
             jumpPressed = true;
         }
     }
@@ -47,5 +46,4 @@ public class CharacterMovement : MonoBehaviour
         }
         jumpPressed = false;
     }
-
 }

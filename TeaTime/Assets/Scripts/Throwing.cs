@@ -49,8 +49,7 @@ public class Throwing : MonoBehaviour
     {
         GameObject projectile = GameObject.Instantiate(ObjectToThrow);
         projectile.transform.position = (Vector2)transform.position + Offset;
-        Debug.Log(force);
-        projectile.GetComponent<Rigidbody2D>().AddForce(direction * force, ForceMode2D.Impulse);
+        projectile.GetComponentInChildren<Rigidbody2D>().AddForce(direction * force, ForceMode2D.Impulse);
         windupStartTime = -1f;
         throwLocked = true;
     }

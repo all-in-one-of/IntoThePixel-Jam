@@ -16,6 +16,7 @@ TagManager:
   - Player
   - Projectile
   - Ground
+  - Bounds
   - 
   - 
   - 
@@ -35,8 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - IgnoreCollision
   m_SortingLayers:
   - name: Default
     uniqueID: 0
