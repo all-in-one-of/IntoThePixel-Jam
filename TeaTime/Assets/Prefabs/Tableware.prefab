@@ -134,7 +134,7 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0.06}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
 --- !u!114 &114667223663492150
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShatterPersistenceTime: 0.5
   ShatterRadius: 0.12
-  KnockbackForce: 0.01
+  KnockbackForce: 0.035
   BreakRelativeVelocityMagnitude: 3.5
   MainObject: {fileID: 1295837542338688}
   ParticleSystem: {fileID: 1233944726023412}

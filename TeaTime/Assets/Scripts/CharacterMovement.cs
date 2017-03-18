@@ -14,9 +14,9 @@ public class CharacterMovement : MonoBehaviour
     public float MaxGroundDistance;
 
     [Header("Knockback")]
-    public float KnockbackAngle;
     public float KnockbackCooldown;
     public float KnockbackMovementFraction;
+    public AnimationCurve KnockbackCompensation;
 
     private Player assignedPlayer;
 
@@ -63,8 +63,10 @@ public class CharacterMovement : MonoBehaviour
 
     public void Knockback(Tableware tableware, Collision2D collision)
     {
-        float angle = tableware.transform.position.x > transform.position.x ? KnockbackAngle : -KnockbackAngle;
-        rb.AddForce(Vector2.up.Rotate(angle) * tableware.KnockbackForce, ForceMode2D.Impulse);
+        Vector2 contactNormal = collision.contacts[0].normal;
+        float knockbackCompensation = KnockbackCompensation.Evaluate(Vector2.Dot(Vector2.right, contactNormal));
+        Debug.Log(knockbackCompensation);
+        rb.AddForce(contactNormal.Rotate(180) * tableware.KnockbackForce * knockbackCompensation, ForceMode2D.Impulse);
         StartCoroutine(WaitForKnockbackCooldown());
     }
 

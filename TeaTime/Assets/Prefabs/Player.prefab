@@ -150,13 +150,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927b110d2d7550348b63b39e9cf5b617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 100
+  MoveSpeed: 65
   JumpForce: 0.05
   GroundLayers:
     serializedVersion: 2
     m_Bits: 1536
   RaycastOffset: {x: 0, y: -0}
   MaxGroundDistance: 0.1
+  KnockbackCooldown: 0.3
+  KnockbackMovementFraction: 0.01
+  KnockbackCompensation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114040239384251800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -234,7 +254,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ba1bc6a68fcc0c44f838332f9d301b8d, type: 3}
   m_Color: {r: 0.75, g: 0.6054767, b: 0.4742647, a: 1}
   m_FlipX: 0
@@ -269,7 +289,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: b9e05cc647fc56f449c91966b5cddc92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -304,7 +324,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: b9e05cc647fc56f449c91966b5cddc92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
