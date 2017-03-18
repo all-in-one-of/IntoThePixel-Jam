@@ -4,25 +4,36 @@ using UnityEngine;
 
 public class Tableware : MonoBehaviour
 {
+    public float ShatterPersistenceTime;
+    public float ShatterRadius;
+    public float KnockbackForce;
     public float BreakRelativeVelocityMagnitude;
     public GameObject MainObject;
     public GameObject ParticleSystem;
 
-    private Rigidbody2D rb;
-
-    public void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.relativeVelocity.magnitude);
         if(collision.relativeVelocity.magnitude >= BreakRelativeVelocityMagnitude)
         {
             MainObject.SetActive(false);
             ParticleSystem.transform.localPosition = transform.localPosition;
-            ParticleSystem.SetActive(true); 
+            ParticleSystem.SetActive(true);
+
+            Player[] players = FindObjectsOfType<Player>();
+            foreach(Player player in players)
+            {
+                if(Vector2.Distance(player.transform.position, transform.position) < ShatterRadius)
+                {
+                    player.GetComponent<CharacterMovement>().Knockback(this, collision);
+                }
+            }
         }
     }
+
+    private IEnumerator WaitForShatter()
+    {
+        yield return new WaitForSeconds(ShatterPersistenceTime);
+        gameObject.SetActive(false);
+    }
+
 }
