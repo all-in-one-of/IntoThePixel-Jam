@@ -13,10 +13,12 @@ TagManager:
   - UI
   - 
   - 
-  - Player
+  - Player1
   - Projectile
   - Ground
   - Bounds
+  - Player2
+  - HigherGround
   - 
   - 
   - 
@@ -34,9 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - IgnoreCollision
+  - FreshProjectile
   m_SortingLayers:
   - name: Default
     uniqueID: 0

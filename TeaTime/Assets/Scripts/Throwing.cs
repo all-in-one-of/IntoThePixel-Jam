@@ -5,7 +5,7 @@ using UnityEngine;
 public class Throwing : MonoBehaviour
 {
     public GameObject ObjectToThrow;
-    public Vector2 Offset;
+    public float Offset;
     public float MaxForce;
     public AnimationCurve ForceFraction;
     public float DeadThreshold = 0.2f;
@@ -15,10 +15,12 @@ public class Throwing : MonoBehaviour
 
     private float windupStartTime = -1f;
     private bool throwLocked;
+    private Rigidbody2D rb;
 
     public void Start()
     {
         assignedPlayer = GetComponent<Player>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     public void Update()
@@ -47,9 +49,17 @@ public class Throwing : MonoBehaviour
 
     private void Throw(float force, Vector2 direction)
     {
-        GameObject projectile = GameObject.Instantiate(ObjectToThrow);
-        projectile.transform.position = (Vector2)transform.position + Offset;
-        projectile.GetComponentInChildren<Rigidbody2D>().AddForce(direction * force, ForceMode2D.Impulse);
+        Tableware projectile = GameObject.Instantiate(ObjectToThrow).GetComponentInChildren<Tableware>();
+
+        projectile.transform.position = (Vector2)transform.position + direction.normalized * Offset;
+        projectile.transform.eulerAngles = new Vector3(0, 0, direction.GetAngle());
+
+        Rigidbody2D projectileRb = projectile.GetComponentInChildren<Rigidbody2D>();
+        projectileRb.velocity = rb.velocity;
+        projectileRb.AddForce(direction * force, ForceMode2D.Impulse);
+
+        projectile.Init(assignedPlayer.Index);
+
         windupStartTime = -1f;
         throwLocked = true;
     }

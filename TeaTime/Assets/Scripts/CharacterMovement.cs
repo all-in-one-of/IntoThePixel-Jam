@@ -50,23 +50,18 @@ public class CharacterMovement : MonoBehaviour
         {
             rb.AddForce(Vector2.right * horizontalMovement * MoveSpeed * KnockbackMovementFraction * Time.fixedDeltaTime);
         }
-        if(jumpPressed)
+        if(jumpPressed && rb.velocity.y <= 0 && isGrounded())
         {
-            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + RaycastOffset, Vector2.down, MaxGroundDistance, GroundLayers);
-            if(hit)
-            {
-                rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
-            }
+            rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
         }
         jumpPressed = false;
     }
 
     public void Knockback(Tableware tableware, Collision2D collision)
     {
-        Vector2 contactNormal = collision.contacts[0].normal;
-        float knockbackCompensation = KnockbackCompensation.Evaluate(Vector2.Dot(Vector2.right, contactNormal));
-        Debug.Log(knockbackCompensation);
-        rb.AddForce(contactNormal.Rotate(180) * tableware.KnockbackForce * knockbackCompensation, ForceMode2D.Impulse);
+        Vector2 contactNormal = tableware.transform.position - transform.position;
+        float knockbackCompensation = KnockbackCompensation.Evaluate(Mathf.Abs(Vector2.Dot(Vector2.right, contactNormal)));
+        rb.AddForce(contactNormal * tableware.KnockbackForce * knockbackCompensation, ForceMode2D.Impulse);
         StartCoroutine(WaitForKnockbackCooldown());
     }
 
@@ -75,5 +70,12 @@ public class CharacterMovement : MonoBehaviour
         knockbackCooldownActive = true;
         yield return new WaitForSeconds(KnockbackCooldown);
         knockbackCooldownActive = false;
+    }
+
+    private bool isGrounded()
+    {
+        return Physics2D.Raycast((Vector2)transform.position + RaycastOffset, Vector2.down, MaxGroundDistance, GroundLayers) ||
+            Physics2D.Raycast((Vector2)transform.position + RaycastOffset + Vector2.right * transform.localScale.x / 2f, Vector2.down, MaxGroundDistance, GroundLayers) ||
+            Physics2D.Raycast((Vector2)transform.position + RaycastOffset + Vector2.left * transform.localScale.x / 2f, Vector2.down, MaxGroundDistance, GroundLayers);
     }
 }
