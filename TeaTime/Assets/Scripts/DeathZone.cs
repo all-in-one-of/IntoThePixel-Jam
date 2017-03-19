@@ -12,7 +12,6 @@ public class DeathZone : MonoBehaviour
         {
             //Debug.Log("Player " + player.Index + " fell off the stage!");
             GameManager.Instance.PlayerFellOffStage(player.Index);
-            SceneManager.LoadScene(0);
         }
         else
         {

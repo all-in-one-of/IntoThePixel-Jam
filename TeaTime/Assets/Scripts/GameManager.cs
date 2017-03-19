@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class GameManager : MonoBehaviour
     }
     private static GameManager instance;
 
+    public float StartNextRoundTime;
+    public Text FinishText;
+    public Image FinishOverlay;
+    
     [Header("Score")]
     public Text ScoreP1;
     public Text ScoreP2;
@@ -36,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     private Dictionary<int, int> playerScore = new Dictionary<int, int>();
     private bool switchPosition;
+    private bool gameOver;
 
     public void Awake()
     {
@@ -78,6 +84,7 @@ public class GameManager : MonoBehaviour
         for(int i = CountDownSteps; i >= 0; i--)
         {
             CountDownText.text = i.ToString();
+            CountDownText.transform.DOScale(2f, CountDownStepDuration / 2f).OnComplete(() => CountDownText.transform.DOScale(1f, CountDownStepDuration / 2f));
             yield return new WaitForSeconds(CountDownStepDuration);
         }
         CountDownText.gameObject.SetActive(false);
@@ -86,8 +93,34 @@ public class GameManager : MonoBehaviour
 
     public void PlayerFellOffStage(int playerIndex)
     {
-        playerScore[playerIndex == 1 ? 2 : 1]++;
+        if (gameOver) return;
+        gameOver = true;
+        int winnerIndex = playerIndex == 1 ? 2 : 1;
+        playerScore[winnerIndex]++;
         ScoreP1.text = playerScore[1].ToString();
         ScoreP2.text = playerScore[2].ToString();
+        if(winnerIndex == 1)
+        {
+            ScoreP1.transform.DOScale(2f, StartNextRoundTime / 4f).OnComplete(() => ScoreP1.transform.DOScale(1f, StartNextRoundTime / 4f));
+        }
+        else
+        {
+            ScoreP2.transform.DOScale(2f, StartNextRoundTime / 4f).OnComplete(() => ScoreP2.transform.DOScale(1f, StartNextRoundTime / 4f));
+        }
+        StartCoroutine(StartNextRound("Player " + playerIndex + " out!"));
+    }
+
+    private IEnumerator StartNextRound(string message)
+    {
+        FinishOverlay.gameObject.SetActive(true);
+        FinishOverlay.color = new Color(0, 0, 0, 0);
+        FinishOverlay.DOColor(new Color(0, 0, 0, 0.8f), StartNextRoundTime / 2f);
+        FinishText.text = message;
+        FinishText.transform.DOScale(2f, StartNextRoundTime / 4f).OnComplete(() => FinishText.transform.DOScale(1f, StartNextRoundTime / 4f));
+        yield return new WaitForSeconds(StartNextRoundTime);
+        SceneManager.LoadScene(0);
+        FinishOverlay.DOColor(new Color(0, 0, 0, 0.0f), StartNextRoundTime / 4f);
+        FinishOverlay.gameObject.SetActive(false);
+        gameOver = false;
     }
 }

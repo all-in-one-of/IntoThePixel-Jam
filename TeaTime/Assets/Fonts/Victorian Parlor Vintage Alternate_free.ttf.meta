@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 50dc192df83301b4bbf8e35358bd1c15
+timeCreated: 1489928375
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 130
+  forceTextureCase: 0
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Victorian Parlor Vintage Alternate_free
+  fontNames:
+  - Victorian Parlor Vintage Alternate_free
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
