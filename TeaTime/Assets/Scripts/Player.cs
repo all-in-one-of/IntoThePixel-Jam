@@ -29,6 +29,11 @@ public class Player : MonoBehaviour
     public float KnockbackMovementFraction = 0.01f;
     public AnimationCurve KnockbackCompensation;
 
+    [Header("Model")]
+    public GameObject Model;
+    public float TurnSpeed;
+    public float MaxAngle;
+
     private Rigidbody2D rb;
     private Animator anim;
     private bool jumpPressed;
@@ -84,6 +89,8 @@ public class Player : MonoBehaviour
 
         float horizontalMovement = InputHandler.HorizontalInput(Index);
         anim.SetFloat("horizontalMovement", Mathf.Abs(horizontalMovement));
+        float targetRotation = Mathf.Lerp(180 + MaxAngle, 180 - MaxAngle, (horizontalMovement + 1) / 2f);
+        Model.transform.localEulerAngles = new Vector3(0, Mathf.Lerp(Model.transform.localEulerAngles.y, targetRotation, TurnSpeed * Time.fixedDeltaTime));
         float moveSpeed = horizontalMovement * MoveSpeed * Time.fixedDeltaTime;
         if (!knockbackCooldownActive)
         {
