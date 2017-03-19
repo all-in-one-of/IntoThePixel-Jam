@@ -34,13 +34,21 @@ public class Tableware : MonoBehaviour
             ParticleSystem.transform.localPosition = transform.localPosition;
             ParticleSystem.SetActive(true);
 
-            Player[] players = FindObjectsOfType<Player>();
-            foreach(Player player in players)
+            Player hitPlayer = collision.gameObject.GetComponent<Player>();
+            if (hitPlayer == null)
             {
-                if(Vector2.Distance(player.transform.position, transform.position) < ShatterRadius)
+                Player[] players = FindObjectsOfType<Player>();
+                foreach (Player player in players)
                 {
-                    player.GetComponent<CharacterMovement>().Knockback(this, collision);
+                    if (Vector2.Distance(player.transform.position, transform.position) < ShatterRadius)
+                    {
+                        player.GetComponent<Player>().Knockback(this, collision);
+                    }
                 }
+            }
+            else
+            {
+                hitPlayer.Knockback(this, collision);
             }
         }
     }

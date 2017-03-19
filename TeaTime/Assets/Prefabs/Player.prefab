@@ -11,6 +11,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1602181706798976}
   m_IsPrefabParent: 1
+--- !u!1 &1171081580299606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4816626646500828}
+  - component: {fileID: 212135292424163426}
+  m_Layer: 8
+  m_Name: SpecialTableware
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!1 &1464889480809286
 GameObject:
   m_ObjectHideFlags: 0
@@ -37,8 +53,6 @@ GameObject:
   - component: {fileID: 4982843834301820}
   - component: {fileID: 212075999472797338}
   - component: {fileID: 50760194525901892}
-  - component: {fileID: 114026311836642248}
-  - component: {fileID: 114210103170415650}
   - component: {fileID: 114040239384251800}
   - component: {fileID: 60981576435040524}
   m_Layer: 8
@@ -90,6 +104,19 @@ Transform:
   m_Father: {fileID: 4982843834301820}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4816626646500828
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1171081580299606}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.25, y: 0.24, z: 0}
+  m_LocalScale: {x: 0.89348847, y: 1.1331389, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4982843834301820}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4982843834301820
 Transform:
   m_ObjectHideFlags: 1
@@ -102,6 +129,7 @@ Transform:
   m_Children:
   - {fileID: 4310612995346222}
   - {fileID: 4160050981088214}
+  - {fileID: 4816626646500828}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -147,44 +175,6 @@ PolygonCollider2D:
       - {x: -0.1, y: 0.5}
       - {x: -0.5, y: 0.1}
       - {x: -0.5, y: -0.1}
---- !u!114 &114026311836642248
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1602181706798976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 927b110d2d7550348b63b39e9cf5b617, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 65
-  JumpForce: 0.03
-  GroundLayers:
-    serializedVersion: 2
-    m_Bits: 1536
-  RaycastOffset: {x: 0, y: -0}
-  MaxGroundDistance: 0.1
-  KnockbackCooldown: 0.3
-  KnockbackMovementFraction: 0.01
-  KnockbackCompensation:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0.050000012
-      inSlope: 0.95
-      outSlope: 0.95
-      tangentMode: 34
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0.95
-      outSlope: 0.95
-      tangentMode: 34
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!114 &114040239384251800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,17 +187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 0
---- !u!114 &114210103170415650
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1602181706798976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 237968556f9afaa4aa102eed3ad581ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   ObjectToThrow: {fileID: 1462545497297224, guid: c0f0fceb752bdd444ae7399a550be1fd,
     type: 2}
   Offset: 0.051
@@ -218,20 +197,48 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 1
-      inSlope: -6
-      outSlope: -6
+      inSlope: -6.000001
+      outSlope: -6.000001
       tangentMode: 34
     - serializedVersion: 2
-      time: 0.14999999
-      value: 0.1
-      inSlope: -6
-      outSlope: -6
+      time: 0.14999998
+      value: 0.100000024
+      inSlope: -6.000001
+      outSlope: -6.000001
       tangentMode: 34
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
   DeadThreshold: 0.1
   ThrowThreshold: 0.9
+  SpecialTablewareIndicator: {fileID: 1171081580299606}
+  MoveSpeed: 65
+  JumpForce: 0.03
+  GroundLayers:
+    serializedVersion: 2
+    m_Bits: 9728
+  RaycastOffset: {x: 0, y: 0}
+  MaxGroundDistance: 0.08
+  KnockbackCooldown: 0.3
+  KnockbackMovementFraction: 0.01
+  KnockbackCompensation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: -0.75
+      outSlope: -0.75
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 1
+      value: 0.25
+      inSlope: -0.75
+      outSlope: -0.75
+      tangentMode: 34
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!212 &212075999472797338
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -300,6 +307,41 @@ SpriteRenderer:
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: b9e05cc647fc56f449c91966b5cddc92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+--- !u!212 &212135292424163426
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1171081580299606}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300000, guid: b9e05cc647fc56f449c91966b5cddc92, type: 3}
+  m_Color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!212 &212347050780908910
