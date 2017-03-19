@@ -30,14 +30,17 @@ public class Player : MonoBehaviour
     public AnimationCurve KnockbackCompensation;
 
     private Rigidbody2D rb;
+    private Animator anim;
     private bool jumpPressed;
     private bool knockbackCooldownActive;
     private float windupStartTime = -1f;
     private bool throwLocked;
+    private bool grounded;
 
     public void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     public void Update()
@@ -76,9 +79,11 @@ public class Player : MonoBehaviour
 
     public void FixedUpdate()
     {
+        CheckGroundContact();
         if (!GameManager.Instance.MovementEnabled) return;
 
         float horizontalMovement = InputHandler.HorizontalInput(Index);
+        anim.SetFloat("horizontalMovement", Mathf.Abs(horizontalMovement));
         float moveSpeed = horizontalMovement * MoveSpeed * Time.fixedDeltaTime;
         if (!knockbackCooldownActive)
         {
@@ -89,7 +94,7 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector2.right * moveSpeed * KnockbackMovementFraction * Time.fixedDeltaTime);
         }
 
-        if (jumpPressed && rb.velocity.y <= 0 && isGrounded())
+        if (jumpPressed && rb.velocity.y <= 0 && grounded)
         {
             float jumpForce = JumpForce;
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -101,13 +106,13 @@ public class Player : MonoBehaviour
     {
         Vector2 contactNormal = (transform.position - tableware.transform.position).normalized;
         float knockbackCompensation = KnockbackCompensation.Evaluate(Mathf.Abs(Vector2.Dot(Vector2.right, contactNormal)));
-        Debug.Log(knockbackCompensation);
         rb.AddForce(contactNormal * tableware.KnockbackForce * knockbackCompensation, ForceMode2D.Impulse);
         StartCoroutine(WaitForKnockbackCooldown());
     }
 
     private void Throw(float force, Vector2 direction)
     {
+        anim.SetTrigger("throw");
         GameObject objectToThrow;
         objectToThrow = Instantiate(ObjectToThrow);
         Tableware projectile = objectToThrow.GetComponentInChildren<Tableware>();
@@ -125,11 +130,13 @@ public class Player : MonoBehaviour
         throwLocked = true;
     }
 
-    private bool isGrounded()
+    private bool CheckGroundContact()
     {
-        return Physics2D.Raycast((Vector2)transform.position + RaycastOffset, Vector2.down, MaxGroundDistance, GroundLayers) ||
+        grounded = Physics2D.Raycast((Vector2)transform.position + RaycastOffset, Vector2.down, MaxGroundDistance, GroundLayers) ||
             Physics2D.Raycast((Vector2)transform.position + RaycastOffset + Vector2.right * transform.localScale.x / 2f, Vector2.down, MaxGroundDistance, GroundLayers) ||
             Physics2D.Raycast((Vector2)transform.position + RaycastOffset + Vector2.left * transform.localScale.x / 2f, Vector2.down, MaxGroundDistance, GroundLayers);
+        anim.SetBool("grounded", grounded);
+        return grounded;
     }
 
     private IEnumerator WaitForKnockbackCooldown()
