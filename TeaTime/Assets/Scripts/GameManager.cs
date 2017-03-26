@@ -77,6 +77,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CountDown());
     }
 
+    public void Update()
+    {
+        if (Input.GetKey("escape"))
+            Application.Quit();
+    }
+
     private IEnumerator CountDown()
     {
         CountDownText.gameObject.SetActive(true);
