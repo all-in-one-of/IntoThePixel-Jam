@@ -30,7 +30,7 @@ public class Tableware : MonoBehaviour
         }
         if(collision.relativeVelocity.magnitude >= BreakRelativeVelocityMagnitude)
         {
-            SoundManager.Instance.shatterSound();
+            SoundManager.instance.shatterSound();
             MainObject.SetActive(false);
             ParticleSystem.transform.localPosition = transform.localPosition;
             ParticleSystem.SetActive(true);

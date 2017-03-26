@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour {
+public class SoundManager : Singleton<SoundManager> {
 
-   // static SoundManager soundmanager;
     AudioSource[] audiosources;
-
-    public static SoundManager Instance;
 
 	// Use this for initialization
 	void Start () {
-        Instance = this;
         audiosources = GetComponents<AudioSource>();
+        //Background Music
+        audiosources[0].Play();
     }
 	
 	// Update is called once per frame
