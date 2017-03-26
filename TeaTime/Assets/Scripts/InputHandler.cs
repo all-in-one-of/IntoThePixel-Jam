@@ -41,17 +41,25 @@ public static class InputHandler
     {
         string horizontalAxisName = "";
         string verticalAxisName = "";
+        string verticalKeyName = "";
         switch (playerIndex)
         {
             case 1:
                 horizontalAxisName = "Horizontal2P1";
                 verticalAxisName = "Vertical2P1";
+                verticalKeyName = "VerticalKeysP1";
                 break;
             case 2:
                 horizontalAxisName = "Horizontal2P2";
                 verticalAxisName = "Vertical2P2";
+                verticalKeyName = "VerticalKeysP2";
                 break;
         }
-        return new Vector2(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
+        Vector2 joystickAim = new Vector2(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
+
+        if (joystickAim.magnitude > 0f)
+            return joystickAim;
+        else
+            return new Vector2(Input.GetAxis(verticalKeyName), Mathf.Abs(Input.GetAxis(verticalKeyName) * 0.5f)).normalized;
     }
 }
