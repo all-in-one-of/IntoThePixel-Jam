@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEngine.Events;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,10 +14,14 @@ public class Tableware : MonoBehaviour
     public GameObject MainObject;
     public GameObject ParticleSystem;
 
+    public UnityAction<float> OnDestroyed = delegate { };
+
     private int belongsToPlayerIndex;
 
     public void Init(int belongsToPlayerIndex)
     {
+        MainObject.SetActive(true);
+        ParticleSystem.SetActive(false);
         this.belongsToPlayerIndex = belongsToPlayerIndex;
         StartCoroutine(WaitForChangeLayer());
     }   
@@ -34,6 +39,7 @@ public class Tableware : MonoBehaviour
             MainObject.SetActive(false);
             ParticleSystem.transform.localPosition = transform.localPosition;
             ParticleSystem.SetActive(true);
+            OnDestroyed(ShatterPersistenceTime);
 
             Player hitPlayer = collision.gameObject.GetComponent<Player>();
             if (hitPlayer == null)
@@ -60,11 +66,4 @@ public class Tableware : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("Projectile");
         belongsToPlayerIndex = -1;
     }
-    
-    private IEnumerator WaitForShatter()
-    {
-        yield return new WaitForSeconds(ShatterPersistenceTime);
-        gameObject.SetActive(false);
-    }
-
 }

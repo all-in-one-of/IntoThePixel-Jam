@@ -10,12 +10,12 @@ public class DeathZone : MonoBehaviour
         Player player = collision.GetComponent<Player>();
         if(player != null)
         {
-            //Debug.Log("Player " + player.Index + " fell off the stage!");
             GameManager.Instance.PlayerFellOffStage(player.Index);
         }
         else
         {
-            collision.gameObject.SetActive(false);
+            Tableware tableware = collision.GetComponent<Tableware>();
+            tableware.OnDestroyed(0f);
         }
     }
 }

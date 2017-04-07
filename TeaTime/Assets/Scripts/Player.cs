@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
     public int Index;
 
     [Header("Throwing")]
-    public GameObject ObjectToThrow;
     public float Offset = 0.051f;
     public float MaxForce = 0.05f;
     public AnimationCurve ForceFraction;
@@ -121,8 +120,9 @@ public class Player : MonoBehaviour
     {
         anim.SetTrigger("throw");
         GameObject objectToThrow;
-        objectToThrow = Instantiate(ObjectToThrow);
-        Tableware projectile = objectToThrow.GetComponentInChildren<Tableware>();
+        objectToThrow = TablewareCreator.instance.GetTableware();
+        objectToThrow.SetActive(true);
+        Tableware projectile = objectToThrow.GetComponentInChildren<Tableware>(true);
 
         projectile.transform.position = (Vector2)transform.position + direction.normalized * Offset;
         projectile.transform.eulerAngles = new Vector3(0, 0, direction.GetAngle());
