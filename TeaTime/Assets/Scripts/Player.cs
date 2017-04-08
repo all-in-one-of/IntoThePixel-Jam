@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
 
     public void Update()
     {
-        if (!GameManager.Instance.MovementEnabled) return;
+        if (!GameManager.instance.MovementEnabled) return;
 
         if (!knockbackCooldownActive)
         {
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     public void FixedUpdate()
     {
         CheckGroundContact();
-        if (!GameManager.Instance.MovementEnabled) return;
+        if (!GameManager.instance.MovementEnabled) return;
 
         float horizontalMovement = InputHandler.HorizontalInput(Index);
         anim.SetFloat("horizontalMovement", Mathf.Abs(horizontalMovement));

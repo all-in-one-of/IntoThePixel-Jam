@@ -10,7 +10,7 @@ public class DeathZone : MonoBehaviour
         Player player = collision.GetComponent<Player>();
         if(player != null)
         {
-            GameManager.Instance.PlayerFellOffStage(player.Index);
+            GameManager.instance.PlayerFellOffStage(player.Index);
         }
         else
         {

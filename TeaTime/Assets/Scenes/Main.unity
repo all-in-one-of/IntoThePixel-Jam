@@ -8023,7 +8023,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cee421462afb2840b8422ac8fcb1de8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPersistant: 0
   StartNextRoundTime: 1
+  GameOverTime: 2
   FinishText: {fileID: 1566380886}
   FinishOverlay: {fileID: 467944}
   ScoreP1: {fileID: 95515472}
@@ -8035,6 +8037,7 @@ MonoBehaviour:
   SpawnPoint2: {x: 0.6, y: 0}
   Game: {fileID: 1867195173}
   Menu: {fileID: 137209760}
+  GUI: {fileID: 1829248966}
 --- !u!4 &1074857601
 Transform:
   m_ObjectHideFlags: 0
@@ -12339,6 +12342,7 @@ GameObject:
   - component: {fileID: 1829248969}
   - component: {fileID: 1829248968}
   - component: {fileID: 1829248967}
+  - component: {fileID: 1829248966}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -12346,6 +12350,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1829248966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1829248965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84895d9496f4b3749b1b31389ad8e246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Result: {fileID: 467943}
+  ResultText: {fileID: 1566380886}
+  CountDownText: {fileID: 2057328349}
 --- !u!114 &1829248967
 MonoBehaviour:
   m_ObjectHideFlags: 0
