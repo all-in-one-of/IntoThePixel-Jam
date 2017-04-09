@@ -7,22 +7,6 @@ using DG.Tweening;
 
 public class GameManager : Singleton<GameManager>
 {
-    public float StartNextRoundTime;
-    public float GameOverTime;
-
-    public Text FinishText;
-    public Image FinishOverlay;
-    
-    [Header("Score")]
-    public Text ScoreP1;
-    public Text ScoreP2;
-
-    [Header("Countdown")]
-    public Text CountDownText;
-    public float CountDownStepDuration;
-    public int CountDownSteps;
-
-    [Header("SpawnPos")]
     public Vector2 SpawnPoint1;
     public Vector2 SpawnPoint2;
 
@@ -36,11 +20,11 @@ public class GameManager : Singleton<GameManager>
 
     private Dictionary<int, int> playerScore = new Dictionary<int, int>();
     private bool switchPosition;
-    private bool gameOver;
+    private bool transitionInProgess;
+    private bool gameRunning;
     private int currentRound;
 
     private static int numberOfRounds = 3;
-    private bool gameRunning = false;
 
     public void Start()
     {
@@ -50,7 +34,6 @@ public class GameManager : Singleton<GameManager>
         players = FindObjectsOfType<Player>();
         playerScore.Add(1, 0);
         playerScore.Add(2, 0);
-        //StartRound();
     }
 
     public void Update()
@@ -63,13 +46,15 @@ public class GameManager : Singleton<GameManager>
 
     private void StartGame()
     {
-        gameOver = false;
         currentRound = 0;
         gameRunning = true;
+
         Menu.SetActive(false);
         Game.SetActive(true);
+
         StartRound(true);
-        UpdatePlayerScore();
+
+        GUI.UpdatePlayerScore(playerScore);
     }
 
     private void StartRound(bool firstRound)
@@ -101,77 +86,45 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void CountDown()
-    {
-        //CountDownText.gameObject.SetActive(true);
-        //MovementEnabled = false;
-        //for(int i = CountDownSteps; i >= 0; i--)
-        //{
-        //    CountDownText.text = i.ToString();
-        //    CountDownText.transform.DOScale(2f, CountDownStepDuration / 2f).OnComplete(() => CountDownText.transform.DOScale(1f, CountDownStepDuration / 2f));
-        //    yield return new WaitForSeconds(CountDownStepDuration);
-        //}
-        //CountDownText.gameObject.SetActive(false);
-        //MovementEnabled = true;
-    }
-
     public void PlayerFellOffStage(int playerIndex)
     {
-        if (gameOver) return;
+        if (transitionInProgess) return;
+        transitionInProgess = true;
 
-        gameOver = true;
         int winnerIndex = playerIndex == 1 ? 2 : 1;
         playerScore[winnerIndex]++;
-        UpdatePlayerScore();     
-        if(winnerIndex == 1)
-        {
-            ScoreP1.transform.DOScale(2f, StartNextRoundTime / 4f).OnComplete(() => ScoreP1.transform.DOScale(1f, StartNextRoundTime / 4f));
-        }
-        else
-        {
-            ScoreP2.transform.DOScale(2f, StartNextRoundTime / 4f).OnComplete(() => ScoreP2.transform.DOScale(1f, StartNextRoundTime / 4f));
-        }
+        GUI.UpdatePlayerScore(playerScore);
+        GUI.IndicateScoreChange(winnerIndex);
+
         if (playerScore[winnerIndex] > Mathf.FloorToInt(numberOfRounds / 2f))
         {
-            StartCoroutine(GameOver("Player " + winnerIndex + " won!"));
+            //TODO: Add beautiful transition curtain here
+            StartCoroutine(GUI.ShowResult(2f, "Player " + winnerIndex + " won!", () =>
+            {
+                ResetScore();
+                Game.SetActive(false);
+                Menu.SetActive(true);
+
+                gameRunning = false;
+                transitionInProgess = false;
+            }));
         }
         else
         {
-            StartCoroutine(StartNextRound("Player " + playerIndex + " out!"));
+            //TODO: Add beautiful transition curtain here
+            StartCoroutine(GUI.ShowResult(1f, "Player " + playerIndex + " out!", () =>
+            {
+                StartRound(false);
+                transitionInProgess = false;
+            }));
         }
     }
 
-    private void UpdatePlayerScore()
+    private void ResetScore()
     {
-        ScoreP1.text = playerScore[1].ToString();
-        ScoreP2.text = playerScore[2].ToString();
-    }
-
-    private IEnumerator StartNextRound(string message)
-    {
-        FinishOverlay.gameObject.SetActive(true);
-        FinishOverlay.color = new Color(0, 0, 0, 0);
-        FinishOverlay.DOColor(new Color(0, 0, 0, 0.8f), StartNextRoundTime / 2f);
-        FinishText.text = message;
-        FinishText.transform.DOScale(2f, StartNextRoundTime / 4f).OnComplete(() => FinishText.transform.DOScale(1f, StartNextRoundTime / 4f));
-        yield return new WaitForSeconds(StartNextRoundTime);
-        StartRound(false);
-        FinishOverlay.DOColor(new Color(0, 0, 0, 0.0f), StartNextRoundTime / 4f);
-        FinishOverlay.gameObject.SetActive(false);
-        gameOver = false;
-    }
-
-    private IEnumerator GameOver(string message)
-    {
-        UpdatePlayerScore();
-        yield return new WaitForSeconds(GameOverTime);
-        for(int i = 0; i < playerScore.Count; i++)
+        for (int i = 0; i < playerScore.Count; i++)
         {
             playerScore[i] = 0;
         }
-        Game.SetActive(false);
-        Menu.SetActive(true);
-        gameRunning = false;
     }
-
 }
